@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
-import { Input } from '@mui/material';
+import { Button, Input, TextField } from '@mui/material';
+import { Search } from '@mui/icons-material';
+
+import './styles.scss';
 
 const Form = ({ submitForm }) => {
   const [code, setCode] = useState('');
@@ -10,17 +13,24 @@ const Form = ({ submitForm }) => {
   };
   
   return (
-    <div>
+    <div className='form'>
       <form onSubmit={handleSubmit}>
-        <label htmlFor='code'>Zip Code: </label>
-        <Input
+        <input
+          // autoFocus
+          margin='dense'
           type='text'
           id='code'
           name='code'
+          label='Postal Code'
           value={code}
           onChange={(event) => setCode(event.target.value)}
+          inputProps={{ minLength: 6, maxLength: 6}}
+          className='input'
+          placeholder='Enter Postal Code'
         />
-        <button type='submit'>Submit</button>
+        <Button type='submit' className='button'>
+          <Search />
+        </Button>
       </form>
     </div>
   )

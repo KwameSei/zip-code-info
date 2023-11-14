@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
+import { Form, Location } from './index';
+import { toast } from 'react-toastify';
+
 const Home = () => {
   const [location, setLocation] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -16,7 +19,18 @@ const Home = () => {
       const responseData = response.data;
       console.log('Response Data is: ', responseData)
 
-      setLocation(responseData);
+      if (responseData.places.length === 0) {
+        toast.error('Invalid Zip Code');
+        throw new Error('Invalid Zip Code');
+      }
+
+      setLocation({
+        country: responseData.country,
+        state: responseData.places[0]['state abbreviation'],
+        placeName: responseData.places[0]['place name'],
+        longitude: responseData.places[0].longitude,
+        latitude: responseData.places[0].latitude
+      });
     } catch (error) {
       setError(error);
     } finally {
@@ -24,12 +38,15 @@ const Home = () => {
     }
   };
 
-  useEffect(() => {
-    getLocation();
-  }, []);
+  // useEffect(() => {
+  //   getLocation();
+  // }, []);
 
   return (
-    <div>This is a Home component</div>
+    <div>
+      <Form submitForm={getLocation} />
+      <Location location={location} />
+    </div>
   )
 }
 

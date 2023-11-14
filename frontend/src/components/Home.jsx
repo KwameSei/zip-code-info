@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-import { Form, Location } from './index';
+import { Form, Location, Loader } from './index';
 import { toast } from 'react-toastify';
 
 const Home = () => {
@@ -22,6 +22,18 @@ const Home = () => {
       if (responseData.places.length === 0) {
         toast.error('Invalid Zip Code');
         throw new Error('Invalid Zip Code');
+      }
+
+      if (responseData.places.length > 1) {
+        toast.warn('Multiple locations found. Displaying the first one.');
+      }
+
+      if (responseData.places.length === 1) {
+        toast.success('Location found');
+      }
+
+      if (responseData.places.length === 0) {
+        toast.error('Location not found');
       }
 
       setLocation({
@@ -46,6 +58,7 @@ const Home = () => {
     <div>
       <Form submitForm={getLocation} />
       <Location location={location} />
+      {isLoading && <Loader />}
     </div>
   )
 }

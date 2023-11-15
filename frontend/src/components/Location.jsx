@@ -1,10 +1,30 @@
-import { House, LocationCity, LocationOn, Public } from '@mui/icons-material';
-import React from 'react'
+import React, { useEffect } from 'react'
+import { DeleteForeverOutlined, House, LocationCity, LocationOn, Public } from '@mui/icons-material';
+import { Button } from '@mui/material';
+import { toast } from 'react-toastify';
 
-const Location = ({ location }) => {
+const Location = ({ location, clearData, error }) => {
+
+  // Use useEffect to display the error toast only when the error changes
+  useEffect(() => {
+    if (error) {
+      toast.error(error.message ? error.message : 'Something went wrong');
+    }
+  }, [error]);
+
+  // const handleErrors = (error) => {
+  //   if (error) {
+  //     toast.error(error.message
+  //       ? error.message
+  //       : 'Something went wrong'
+  //     )
+  //   }
+  // }
   
   return (
     <div>
+      {/* {error && <p className='error'>{error.message}</p>} */}
+      {/* {handleErrors(error)} */}
       {
         location && (
           <div className='location'>
@@ -28,6 +48,8 @@ const Location = ({ location }) => {
               <LocationOn className='icons' />
               Latitude: <p className='p-text'>{location.latitude}</p>
             </p>
+            {/* <Button className='button' onClick={clearData}>Clear</Button> */}
+            <DeleteForeverOutlined className='delete-icon' onClick={clearData} />
           </div>
         )
       }

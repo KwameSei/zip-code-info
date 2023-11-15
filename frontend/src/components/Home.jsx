@@ -9,11 +9,13 @@ const Home = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  const URL = import.meta.env.VITE_API_URL;
+
   const getLocation = async (code) => {
     setIsLoading(true);
 
     try {
-      const response = await axios.get(`https://api.zippopotam.us/in/${code}`)
+      const response = await axios.get(`${URL}/${code}`)
       console.log('Response is: ', response)
 
       const responseData = response.data;
@@ -43,6 +45,8 @@ const Home = () => {
         longitude: responseData.places[0].longitude,
         latitude: responseData.places[0].latitude
       });
+
+      setError(null); // Clear the error
     } catch (error) {
       setError(error);
     } finally {
@@ -54,10 +58,15 @@ const Home = () => {
   //   getLocation();
   // }, []);
 
+  // Clear the data
+  const handleDataDelete = () => {
+    setLocation(null);
+  };
+
   return (
     <div>
       <Form submitForm={getLocation} />
-      <Location location={location} />
+      <Location location={location} clearData={handleDataDelete} error={error}/>
       {isLoading && <Loader />}
     </div>
   )

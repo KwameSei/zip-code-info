@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 
 const Location = ({ location, clearData, error }) => {
 
-  // Use useEffect to display the error toast only when the error changes
+  // Using useEffect to display the error toast only when the error changes
   useEffect(() => {
     if (error) {
       toast.error(error.message ? error.message : 'Something went wrong');

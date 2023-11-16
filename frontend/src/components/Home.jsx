@@ -8,32 +8,26 @@ import Logo from '../assets/Logo-transparent.png';
 import './styles.scss';
 
 const Home = () => {
-  const [locations, setLocations] = useState(null);
+  const [locations, setLocations] = useState(null); // Set the initial value of the location to null
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const URL = import.meta.env.VITE_API_URL;
 
-  const getLocation = async (code) => {
+  const getLocation = async (code) => { // function to fetch the location
     setIsLoading(true);
 
     try {
-      const response = await axios.get(`${URL}/${code}`)
-      console.log('Response is: ', response)
+      const response = await axios.get(`${URL}/${code}`)  // Making a GET request to the API
 
-      const responseData = response.data;
-      console.log('Response Data is: ', responseData)
+      const responseData = response.data; // Extracting the data from the response object
 
       if (responseData.places.length === 0) {
         toast.error('Invalid Zip Code');
         throw new Error('Invalid Zip Code');
       }
 
-      // if (responseData.places.length > 1) {
-      //   toast.warn('Multiple locations found. Displaying the first one.');
-      // }
-
-      toast.success('Locations found');
+      toast.success('Location(s) found');
 
       // setLocation({
       //   country: responseData.country,
@@ -43,10 +37,10 @@ const Home = () => {
       //   latitude: responseData.places[0].latitude
       // });
 
-      setLocations(responseData.places.map(place => ({
+      setLocations(responseData.places.map(place => ({  // Setting the location to the data from the response object
         country: responseData.country,
-        state: place['state abbreviation'],
-        placeName: place['place name'],
+        state: place['state abbreviation'], // Using bracket notation to access the state abbreviation
+        placeName: place['place name'], // Using bracket notation to access the place name
         longitude: place.longitude,
         latitude: place.latitude
       })));
@@ -68,7 +62,7 @@ const Home = () => {
   //   getLocation();
   // }, []);
 
-  // Clear the data
+  // Function to clear the data
   const handleDataDelete = () => {
     setLocations([]);
   };

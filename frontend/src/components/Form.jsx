@@ -16,15 +16,11 @@ const Form = ({ submitForm }) => {
     <div className='form'>
       <form onSubmit={handleSubmit}>
         <input
-          // autoFocus
-          margin='dense'
           type='text'
           id='code'
           name='code'
-          label='Postal Code'
           value={code}
           onChange={(event) => setCode(event.target.value)}
-          inputProps={{ minLength: 6, maxLength: 6}}
           className='input'
           placeholder='Enter Postal Code'
         />

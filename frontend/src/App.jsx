@@ -20,6 +20,7 @@ function App() {
           draggable={true}
           pauseOnHover={true}
           theme='colored'
+          className='toast'
         />
 
       <Home />
